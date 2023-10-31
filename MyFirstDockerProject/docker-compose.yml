@@ -9,9 +9,11 @@ services:
     # Переменные окружения (логин, пароль и тд, для создания контейнера)
     # https://hub.docker.com/_/postgres - описываются в документации
     environment:
-      - POSTGRES_USER=keeper
-      - POSTGRES_PASSWORD=QweAsdZxc123
-      - POSTGRES_DB=pv111
+      - SOME_VAR=some_value
+    # Переменные окружения принято располагать в отдельном фале
+    # для соблюдения норм безопасности
+    env_file:
+      - .env
     # Разрешить доступ с родительской машины
     ports:
       - "5432:5432"
@@ -20,5 +22,26 @@ services:
       - ./volumes/db.postgresql:/var/lib/postgresql
 
 
+  # inMemory DB - используется для кеширвоания и обмена сообщениями
+  db.redis:
+    image: redis:latest
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./volumes/redis:/data
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "8081:8081"
+    env_file:
+      - .env
 
 
