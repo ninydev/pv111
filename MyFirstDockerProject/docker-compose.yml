@@ -15,6 +15,9 @@ services:
     # Разрешить доступ с родительской машины
     ports:
       - "5432:5432"
+    # Укажем папку для хранения базы данных в главной машине
+    volumes:
+      - ./volumes/db.postgresql:/var/lib/postgresql
 
 
 
