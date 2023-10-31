@@ -1,0 +1,21 @@
+version: '3'
+services:
+
+  # База данных
+  db.postgresql:
+    container_name: db.postgresql
+    # Имя образа - на основе которого будет создан контейнер
+    image: postgres:16
+    # Переменные окружения (логин, пароль и тд, для создания контейнера)
+    # https://hub.docker.com/_/postgres - описываются в документации
+    environment:
+      - POSTGRES_USER=keeper
+      - POSTGRES_PASSWORD=QweAsdZxc123
+      - POSTGRES_DB=pv111
+    # Разрешить доступ с родительской машины
+    ports:
+      - "5432:5432"
+
+
+
+
