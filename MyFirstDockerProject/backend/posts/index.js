@@ -9,5 +9,5 @@ http.createServer(
     function(
                     request,
                     response){
-    response.end("<h1>Hello World from container: " + SERVER_NAME + " </h1>");
+    response.end("<h1>Post container: " + SERVER_NAME + " </h1>");
 }).listen(80);
