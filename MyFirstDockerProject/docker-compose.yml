@@ -1,6 +1,22 @@
 version: '3'
 services:
 
+  # Мой первый веб сервер
+  webserver:
+    # Из какой папки собрать контейнер
+    # В этой папке должен быть Dockerfile
+    build: ./WebServer
+    # Какую внешню папку смонтировать внутри контейнера
+    volumes:
+      - ./WebServer:/usr/src/app
+    # Какую команду выполнить в момент запуска контейнера
+    command: sh -c " npm install && npm start "
+
+    container_name: webserver
+    environment:
+      - SERVER_NAME=webserver
+    ports:
+      - "80:80"
 
 
   # База данных
