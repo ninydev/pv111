@@ -1,6 +1,8 @@
 version: '3'
 services:
 
+
+
   # База данных
   db.postgresql:
     container_name: db.postgresql
