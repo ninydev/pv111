@@ -1,6 +1,18 @@
 version: '3'
 services:
 
+  front.public:
+    build: ./frontend/public
+    volumes:
+      - ./frontend/public:/usr/src/app
+    command: sh -c " npm install && npm start "
+
+  front.admin:
+    build: ./frontend/admin
+    volumes:
+      - ./frontend/admin:/usr/src/app
+    command: sh -c " npm install && npm start "
+
   # Для определения кому обрабатывать тот или иной запрос мне нужен посредник
   # он по части маршрута определит - какой из контейнеров должен обработать запрос
   # в идеале - он передаст запрос самому свободному контейнеру (но это уже работа devOps)
@@ -21,14 +33,23 @@ services:
     environment:
       - SERVER_NAME=api.comments
 
-  api.likes:
+  api.likes.sunny:
     build: ./backend/likes
     volumes:
       - ./backend/likes:/usr/src/app
     command: sh -c " npm install && npm start "
-    container_name: api.likes
+    container_name: api.likes.sunny
     environment:
-      - SERVER_NAME=api.likes
+      - SERVER_NAME=api.likes.sunny
+
+  api.likes.jonny:
+    build: ./backend/likes
+    volumes:
+      - ./backend/likes:/usr/src/app
+    command: sh -c " npm install && npm start "
+    container_name: api.likes.jonny
+    environment:
+      - SERVER_NAME=api.likes.jonny
 
   api.posts:
     build: ./backend/posts
