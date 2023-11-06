@@ -18,6 +18,8 @@ services:
       - ./backend/auth/src:/usr/src/app
     command: sh -c " npm install && npm start "
     container_name: api.auth
+    env_file:
+      - .env
 
   # Этот контейнер должен узнавать - кто к нему пришел
   api.posts:
@@ -26,4 +28,6 @@ services:
       - ./backend/posts/src:/usr/src/app
     command: sh -c " npm install && npm start "
     container_name: api.posts
+    env_file:
+      - .env
 
