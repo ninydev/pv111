@@ -1,5 +1,7 @@
 let jwt = require('jsonwebtoken');
 
+let socketEmitter = require('./../../helpers/SocketEmitter')
+
 // Получить секретный ключ для создания токена
 const JWT_KEY = process.env.JWT_KEY;
 

@@ -37,6 +37,15 @@ export const useSocketMainStore = defineStore('socket.main', {
                 });
             });
 
+            this.socket.on('fromAuth', (data) => {
+                toast.info('Ping from Auth: \n' + new Date(data).toLocaleString(), {
+                    theme: 'colored',
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    transition: "zoom",
+                    autoClose: 500
+                });
+            });
+
             // Реакция на отключение связи
             this.socket.on('disconnect', (data) => {
                 toast.error(data)
