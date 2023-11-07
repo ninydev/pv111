@@ -46,6 +46,16 @@ export const useSocketMainStore = defineStore('socket.main', {
                 });
             });
 
+            this.socket.on('user.login', (data) => {
+                toast.info('New User Login \n' + new Date(data).toLocaleString(), {
+                    theme: 'colored',
+                    position: toast.POSITION.BOTTOM_LEFT,
+                    transition: "zoom",
+                    autoClose: 500
+                });
+                console.log(data);
+            });
+
             // Реакция на отключение связи
             this.socket.on('disconnect', (data) => {
                 toast.error(data)

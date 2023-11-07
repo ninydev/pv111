@@ -1,6 +1,6 @@
 let jwt = require('jsonwebtoken');
 
-let socketEmitter = require('./../../helpers/SocketEmitter')
+let rabbitMQ = require('../../helpers/rabbit');
 
 // Получить секретный ключ для создания токена
 const JWT_KEY = process.env.JWT_KEY;
@@ -13,6 +13,11 @@ exports.login = function (request, response) {
     // Получаю данные из тела запроса
     console.log(request.body);
     let user = request.body;
+
+    // Отсылка сообщения о новом входе
+    rabbitMQ(user);
+
+
 
     // Будем считать - что пользователь таки есть (пара совпала) user - то что нужно
 

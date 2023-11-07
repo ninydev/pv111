@@ -46,3 +46,12 @@ services:
     volumes:
       - ./frontend/public:/usr/src/app
     command: sh -c " npm install && npm start "
+
+  # Контейнер для обмена сообщениями между микросервисами
+  rabbit.mq:
+    image: rabbitmq:3.12.0-management-alpine
+    env_file:
+      - .env
+    ports:
+      - "5672:5672"
+      - "15672:15672"
