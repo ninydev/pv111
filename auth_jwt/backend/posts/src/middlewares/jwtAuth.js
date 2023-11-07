@@ -17,6 +17,7 @@ exports.auth = function (request, response, next) {
                 if (err) {
                     console.log("Ошибка расшифровки");
                     console.log(err);
+                    // return response.status(401).json("UnAuth");
                     next();
                 } // если ошибка - просто пойду дальше
 
