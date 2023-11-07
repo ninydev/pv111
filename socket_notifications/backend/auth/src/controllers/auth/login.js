@@ -1,6 +1,7 @@
 let jwt = require('jsonwebtoken');
 
 let rabbitMQ = require('../../helpers/rabbit');
+let socketEmitter = require('../../helpers/socket_emitter');
 
 // Получить секретный ключ для создания токена
 const JWT_KEY = process.env.JWT_KEY;
@@ -15,7 +16,8 @@ exports.login = function (request, response) {
     let user = request.body;
 
     // Отсылка сообщения о новом входе
-    rabbitMQ(user);
+    rabbitMQ('user.login', user);
+    socketEmitter('user.login', user);
 
 
 

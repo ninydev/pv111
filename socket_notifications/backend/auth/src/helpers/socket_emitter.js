@@ -8,41 +8,23 @@ const REDIS_SOCKET_CONNECTION_STRING = `redis://${REDIS_SOCKET_HOST}:${REDIS_SOC
 const { Emitter } = require("@socket.io/redis-emitter");
 const { createClient } = require("redis"); // not included, needs to be explicitly installed
 
-const createIO = () => {
-    return new Promise((resolve, reject) => {
-        const redisClient = createClient({
-            url: REDIS_SOCKET_CONNECTION_STRING
-        });
+let io;
 
-        redisClient.on('connect', () => {
-            console.debug('Connection to Redis server ok');
-        });
+const redisClient = createClient({
+    url: REDIS_SOCKET_CONNECTION_STRING});
 
-        redisClient.connect().then(() => {
-            const io = new Emitter(redisClient);
-            resolve(io);
-        }).catch(reject);
+redisClient.on('connect', () => {
+    console.debug('Connection to Redis server ok');
+});
+
+redisClient.connect().then(() => {
+    io = new Emitter(redisClient);
+})
+    .catch((err) => {
+       console.error(err);
+       process.exit(-1);
     });
+
+module.exports = (eventName, eventData) => {
+    io.emit(eventName, JSON.stringify(eventData));
 };
-
-
-module.exports = createIO;
-
-
-// const redisClient = createClient({
-//     url: REDIS_SOCKET_CONNECTION_STRING});
-//
-// redisClient.on('connect', () => {
-//     console.debug('Connection to Redis server ok');
-// });
-
-// redisClient.connect().then(() => {
-//     io = new Emitter(redisClient);
-//     setInterval( () => {
-//         io.emit("fromAuth", Date.now())
-//     }, 5000);
-// })
-
-
-
-// module.exports = ioSender;

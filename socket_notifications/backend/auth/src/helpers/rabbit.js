@@ -41,8 +41,12 @@ amqp.connect(RABBITMQ_CONNECTION_URI, {}, async (errorConnect, conn) => {
 
 });
 
-module.exports = (object) => {
-    channel.sendToQueue (RABBITMQ_QUEUE_AUTH, Buffer.from(JSON.stringify(object)));
+module.exports = (eventName, eventData) => {
+    let msg = {
+        name: eventName,
+        data: eventData
+    }
+    channel.sendToQueue (RABBITMQ_QUEUE_AUTH, Buffer.from(JSON.stringify(msg)));
 };
 
 
