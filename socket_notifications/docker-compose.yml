@@ -11,6 +11,8 @@ services:
     ports:
       - "80:80"
 
+
+
   # Этот контейнер будет работать с авторизацией и аутентификацией пользователя
   api.auth:
     build: ./backend/auth
@@ -20,6 +22,26 @@ services:
     container_name: api.auth
     env_file:
       - .env
+
+  # Принимает все уведомления и решает - куда какое отсылать
+  notifications.router:
+    container_name: notifications.router
+    build: ./notifications/notification_router
+    volumes:
+      - ./notifications/notification_router/src:/usr/src/app
+    command: sh -c " npm install && npm start "
+    env_file:
+      - .env
+
+  notifications.email:
+    container_name: notifications.email
+    build: ./notifications/email
+    volumes:
+      - ./notifications/email/src:/usr/src/app
+    command: sh -c " npm install && npm start "
+    env_file:
+      - .env
+
 
   # Контейнер для обмена сообщениями по WebSocket соединению
   socket.jonny:
