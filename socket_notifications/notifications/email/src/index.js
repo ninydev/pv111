@@ -80,11 +80,12 @@ amqp.connect(RABBITMQ_CONNECTION_URI, {}, async (errorConnect, connection) => {
 
                     const info = await transporter.sendMail(mailOptions);
                     console.debug(info);
+                    channel.ack(data);
                 } catch (error) {
                     console.error(error);
                 }
 
-                channel.ack(data);
+
             });
 
 
