@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-11-09T18:06:58.852Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="huQIwxbmhdn4s2C793gU" version="22.1.0" type="device" pages="12">
+<mxfile host="app.diagrams.net" modified="2023-11-10T17:20:18.447Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="57PmIcmuB0yPvrBQRm2g" version="22.1.0" type="device" pages="13">
   <diagram name="Сторінка-1" id="buOmbVuoZlNeCoGCcDBl">
     <mxGraphModel dx="1457" dy="1028" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -977,6 +977,46 @@
         </mxCell>
         <mxCell id="M3x0187habOcarkQ53B5-34" value="Ftp ..." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="500" y="790" width="60" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="g9BSzxj_2GKneGg9ZyLA" name="Сторінка-13">
+    <mxGraphModel dx="1457" dy="1028" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Sdg1VFaNchGU7CTpwTxQ-12" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="250" width="340" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="Sdg1VFaNchGU7CTpwTxQ-2" value="db.Users - db_user=julia" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="480" y="320" width="230" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Sdg1VFaNchGU7CTpwTxQ-3" value="db.Posts - db_user=sasha" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="480" y="545" width="230" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Sdg1VFaNchGU7CTpwTxQ-4" value="App User" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="330" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Sdg1VFaNchGU7CTpwTxQ-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Sdg1VFaNchGU7CTpwTxQ-5" target="Sdg1VFaNchGU7CTpwTxQ-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Sdg1VFaNchGU7CTpwTxQ-5" value="App Post" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="555" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Sdg1VFaNchGU7CTpwTxQ-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Sdg1VFaNchGU7CTpwTxQ-7">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sdg1VFaNchGU7CTpwTxQ-7" value="UserService&lt;br&gt;::&amp;nbsp; getAll()" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Sdg1VFaNchGU7CTpwTxQ-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="Sdg1VFaNchGU7CTpwTxQ-8" target="Sdg1VFaNchGU7CTpwTxQ-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Sdg1VFaNchGU7CTpwTxQ-8" value="AppUserProvider" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="150" y="390" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
