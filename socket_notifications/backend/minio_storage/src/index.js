@@ -13,7 +13,7 @@ const urlencodedParser = express.urlencoded({extended: false});
 
 // Настройка маршрута
 let uploadAvatar = require ('./controllers/avatar')
-app.post("/api/upload/avatar", urlencodedParser, uploadAvatar)
+app.post("/api/minio/upload/avatar", urlencodedParser, uploadAvatar)
 
 // Запустим веб сервер
 app.listen(80, () => {

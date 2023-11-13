@@ -35,12 +35,12 @@ services:
       - .env
 
   # Контейнер загрузки файлов
-  api.upload:
-    build: ./backend/file_upload
+  api.minio.upload:
+    build: backend/minio_storage
     volumes:
-      - ./backend/file_upload/src:/usr/src/app
+      - ./backend/minio_storage/src:/usr/src/app
     command: sh -c " npm install && npm start "
-    container_name: api.file_upload
+    container_name: api.minio.upload
     env_file:
       - .env
 
