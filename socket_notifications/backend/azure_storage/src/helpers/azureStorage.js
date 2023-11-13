@@ -1,5 +1,4 @@
-const { BlobServiceClient, StorageSharedKeyCredential } = require('@azure/storage-blob');
-const {readFileSync} = require("fs");
+const { BlobServiceClient } = require('@azure/storage-blob');
 
 
 const accountName = process.env.AZURE_STORAGE_ACCOUNT_NAME;
@@ -9,7 +8,7 @@ const accountConnectionString = process.env.AZURE_STORAGE_ACCOUNT_CONNECTION_STR
 if (!accountName) throw Error('Azure Storage accountName not found');
 if (!accountKey) throw Error('Azure Storage accountKey not found');
 
-module.exports = async function uploadFileToBlobStorage(containerName, blobName, content) {
+module.exports = async function (containerName, blobName, content) {
     // Получите ключ доступа и имя аккаунта из портала Azure
     const blobServiceClient = BlobServiceClient.fromConnectionString(accountConnectionString);
 
@@ -27,5 +26,5 @@ module.exports = async function uploadFileToBlobStorage(containerName, blobName,
     // Загрузите содержимое файла в блоб и перезапишите, если блоб уже существует
     await blockBlobClient.upload(content, content.length, { overwrite: true });
 
-    console.debug(`File "${filePath}" was uploaded to blob storage as "${blobName}" successfully.`);
+    console.debug(`File  was uploaded to blob storage as "${blobName}" successfully.`);
 }

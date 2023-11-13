@@ -44,6 +44,15 @@ services:
     env_file:
       - .env
 
+  api.azure.upload:
+    build: backend/azure_storage
+    volumes:
+      - ./backend/azure_storage/src:/usr/src/app
+    command: sh -c " npm install && npm start "
+    container_name: api.azure.upload
+    env_file:
+      - .env
+
   # Принимает все уведомления и решает - куда какое отсылать
   notifications.router:
     container_name: notifications.router
