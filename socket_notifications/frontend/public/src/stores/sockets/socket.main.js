@@ -27,6 +27,12 @@ export const useSocketMainStore = defineStore('socket.main', {
                 console.log('Catch message from server:', data);
             });
 
+
+            this.socket.on('ai.computer.vision', (data) => {
+                console.log('Catch message from computer vision:');
+                console.log(data);
+            });
+
             // Пинг с сервера
             this.socket.on('ping', (data) => {
                 toast.info('Ping from server: \n' + new Date(data).toLocaleString(), {

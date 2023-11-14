@@ -1,5 +1,6 @@
 
 const uploadFileToBlobStorage = require('./../helpers/azureStorage')
+let rabbitMQ_vision = require('./../helpers/rabbit');
 
 module.exports = function (request, response) {
 
@@ -10,6 +11,12 @@ module.exports = function (request, response) {
 
         uploadFileToBlobStorage('avatars', objectName, avatarFile.data)
             .then(() =>{
+                // В этот момент я хочу что бы ИИ проанализировал изображение
+                // Отправить на обработку
+                const img = {
+                    url: "https://itsteppv111.blob.core.windows.net/avatars/" + objectName
+                }
+                rabbitMQ_vision(img);
                 return response.status(200).json({
                     message: "File " + objectName + " upload"
                 })
