@@ -9,6 +9,7 @@ const RABBITMQ_CONNECTION_URI = `amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFA
 
 const RABBITMQ_QUEUE_NOTIFICATIONS = process.env.RABBITMQ_QUEUE_NOTIFICATIONS || 'notifications';
 const RABBITMQ_QUEUE_NOTIFICATIONS_EMAIL = process.env.RABBITMQ_QUEUE_NOTIFICATIONS_EMAIL || 'notifications.email';
+const RABBITMQ_QUEUE_NATURAL_NODE = process.env.RABBITMQ_QUEUE_NATURAL_NODE || 'natural.node';
 
 
 const amqp = require ('amqplib/callback_api.js');
@@ -55,8 +56,10 @@ amqp.connect(RABBITMQ_CONNECTION_URI, {}, async (errorConnect, connection) => {
                            socketEmitter('admin.tickets.update.' + ticket.id, {
                                message: " Внутри системы что то обновилось",
                                ticket: ticket
-                           } )
-                       }, 4000);
+                           } );
+
+                           channel.sendToQueue(RABBITMQ_QUEUE_NATURAL_NODE, Buffer.from(JSON.stringify(ticket)));
+                       }, 1000);
 
 
                        break;
@@ -68,7 +71,7 @@ amqp.connect(RABBITMQ_CONNECTION_URI, {}, async (errorConnect, connection) => {
                        // Уведомление через WebSocket
                        socketEmitter(notification.name, notification.data);
                        // пересылка сообщения в очередь отправки на почту
-                       channel.sendToQueue(RABBITMQ_QUEUE_NOTIFICATIONS_EMAIL, Buffer.from(JSON.stringify(notification)))
+                       channel.sendToQueue(RABBITMQ_QUEUE_NOTIFICATIONS_EMAIL, Buffer.from(JSON.stringify(notification)));
                        break;
                }
 

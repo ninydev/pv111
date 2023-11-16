@@ -1,6 +1,15 @@
 version: '3'
 services:
 
+  ai.natural:
+    build: ai/naturalnode
+    volumes:
+      - ./ai/naturalnode/src:/usr/src/app
+    command: sh -c " npm install && npm start "
+    container_name: ai.natural
+    env_file:
+      - .env
+
   api.tickets:
     build: backend/tickets
     volumes:
