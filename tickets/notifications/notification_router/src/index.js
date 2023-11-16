@@ -38,15 +38,27 @@ amqp.connect(RABBITMQ_CONNECTION_URI, {}, async (errorConnect, connection) => {
             // Назначаю слушателя очереди уведомлений.
             channel.consume(RABBITMQ_QUEUE_NOTIFICATIONS,  async (data) => {
                let notification = JSON.parse(data.content.toString());
+               let ticket = notification.data.ticket;
 
                console.debug(notification);
+
 
                switch (notification.name) {
                    case 'tickets.create':
                        socketEmitter('admin.tickets.create', {
                            // На случай изменения набора информации
-                           ticket: notification.data.ticket
+                           ticket: ticket
                        });
+
+                       setTimeout(() => {
+                           console.log(' TimeOut ');
+                           socketEmitter('admin.tickets.update.' + ticket.id, {
+                               message: " Внутри системы что то обновилось",
+                               ticket: ticket
+                           } )
+                       }, 4000);
+
+
                        break;
                    case 'ai.computer.vision':
                        socketEmitter(notification.name, notification.data);

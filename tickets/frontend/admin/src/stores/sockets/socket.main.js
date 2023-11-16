@@ -30,8 +30,19 @@ export const useSocketMainStore = defineStore('socket.main', {
             //Реакция на появление нового тикета
             this.socket.on('admin.tickets.create', (data) => {
                 console.log('Catch Tickets from server:', data);
+                // Эта переменная относиться к получению сообщения о новом тикете
                 let message = JSON.parse(data);
                 toast.dark("Срочно набери " + message.ticket.name + " по номеру телефона " + message.ticket.phone);
+
+                // Подпишемся на сообщения от этого тикета
+                // На практике тут лучше использовать rooms
+                this.socket.on('admin.tickets.update.' + message.ticket.id, (data) => {
+                    console.log('Update Ticket:', data);
+                    // А эта переменная находится внутри callBack метода - и относится к обновлению тикета
+                    let message = JSON.parse(data);
+                    toast.dark("Произошло обновление в тикете " + message.ticket.name);
+                });
+
             });
 
             // Пинг с сервера
