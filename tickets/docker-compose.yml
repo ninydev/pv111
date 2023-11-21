@@ -1,6 +1,12 @@
 version: '3'
 services:
 
+  ai.textblob:
+    build: ai/textblob
+    container_name: ai.textblob
+    env_file:
+      - .env
+
   ai.natural:
     build: ai/naturalnode
     volumes:
