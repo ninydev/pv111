@@ -2,6 +2,8 @@ import pika
 from dotenv import load_dotenv
 import os
 
+print('Start build')
+
 # Загрузка переменных из файла .env
 load_dotenv()
 

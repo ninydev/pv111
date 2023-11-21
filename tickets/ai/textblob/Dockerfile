@@ -9,5 +9,5 @@ COPY ./src /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Запускаем приложение
-CMD ["python", "index.py"]
+CMD ["python", "-u", "index.py"]
 

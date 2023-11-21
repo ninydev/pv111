@@ -9,6 +9,7 @@ const RABBITMQ_CONNECTION_URI = `amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFA
 
 const RABBITMQ_QUEUE_NOTIFICATIONS = process.env.RABBITMQ_QUEUE_NOTIFICATIONS || 'notifications';
 const RABBITMQ_QUEUE_NOTIFICATIONS_EMAIL = process.env.RABBITMQ_QUEUE_NOTIFICATIONS_EMAIL || 'notifications.email';
+const RABBITMQ_QUEUE_TEXT_BLOB = process.env.RABBITMQ_QUEUE_TEXT_BLOB || 'text.textblob';
 const RABBITMQ_QUEUE_NATURAL_NODE = process.env.RABBITMQ_QUEUE_NATURAL_NODE || 'natural.node';
 
 
@@ -50,6 +51,9 @@ amqp.connect(RABBITMQ_CONNECTION_URI, {}, async (errorConnect, connection) => {
                            // На случай изменения набора информации
                            ticket: ticket
                        });
+
+                       channel.sendToQueue(RABBITMQ_QUEUE_TEXT_BLOB, Buffer.from(JSON.stringify(ticket)));
+                       console.log("Send to" + RABBITMQ_QUEUE_TEXT_BLOB);
 
                        setTimeout(() => {
                            console.log(' TimeOut ');
