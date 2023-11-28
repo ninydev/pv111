@@ -4,10 +4,14 @@ import HelloWorld from './components/HelloWorld.vue'
 
 import {onMounted} from "vue";
 import {useSocketMainStore} from "@/stores/sockets/socket.main";
+import {useProductStore} from "@/stores/products";
 
 onMounted( () => {
   const socketsMainStore = useSocketMainStore()
   socketsMainStore.connect()
+
+  const productStore = useProductStore();
+  productStore.getProducts();
 })
 </script>
 

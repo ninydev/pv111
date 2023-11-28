@@ -9,6 +9,7 @@ const urlencodedParser = express.urlencoded({extended: false});
 
 // Настройка маршрута
 app.post("/api/tickets", urlencodedParser, require ('./controllers/tickets/create').create)
+app.get("/api/tickets", require('./controllers/tickets/readAll').readAll);
 
 // Запустим веб сервер
 app.listen(80, () => {

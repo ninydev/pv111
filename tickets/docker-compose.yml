@@ -73,6 +73,14 @@ services:
     env_file:
       - .env
 
+  # Контейнер будет использоваться для сохранения подготовленной информации (cache)
+  redis.cache:
+    image: 'redis:alpine'
+    ports:
+      - "6379:6379"
+    volumes:
+      - './volumes/db/redis/cache:/data'
+
   # Контейнер используется для агрегации сообщений по WebSocket протоколу
   redis.sockets:
     image: 'redis:alpine'
