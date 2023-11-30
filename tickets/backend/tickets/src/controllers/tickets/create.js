@@ -13,6 +13,21 @@ exports.create = function (request, response) {
 
     // Получаю данные из тела запроса
     console.log(request.body);
+
+    let photo = request.files.photo;
+    console.log (photo);
+
+    // Укажите путь и имя файла, куда сохранить
+    let uploadPath = __dirname + '/' + photo.name + '.png';
+
+    // Сохраните файл
+    photo.mv(uploadPath, (err) => {
+        if (err) {
+            console.log('fileSave error')
+            console.log(err)
+        }
+    });
+
     let ticket = request.body;
     ticket.id = uuid.v4();
 

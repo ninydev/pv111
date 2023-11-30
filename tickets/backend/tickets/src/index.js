@@ -2,6 +2,9 @@
 let express = require('express');
 let app = express();
 
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
+
 // Использовать body в запросах
 // Для работы JSON
 app.use(express.json());
