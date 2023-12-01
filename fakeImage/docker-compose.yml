@@ -100,6 +100,30 @@ services:
     networks:
       - pv111
 
+  ai.remove.bg:
+    build: backend/ai/remove_bg
+    volumes:
+      - ./backend/ai/remove_bg/src:/usr/src/app
+    command: sh -c " npm install && npm start "
+    container_name: ai.remove.bg
+    env_file:
+      - .env
+    networks:
+      - pv111
+
+
+  job.mix.images:
+    build: backend/jobs/mix_images
+    volumes:
+      - ./backend/jobs/mix_images/src:/usr/src/app
+    command: sh -c " npm install && npm start "
+    container_name: job.mix.images
+    env_file:
+      - .env
+    networks:
+      - pv111
+
+
 networks:
   pv111:
     driver: bridge
