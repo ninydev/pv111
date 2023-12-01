@@ -10,6 +10,7 @@ app.use(fileUpload());
 app.use(express.json());
 const urlencodedParser = express.urlencoded({extended: false});
 
+const finishImage = require('./consume/image_finish');
 
 // Настройка маршрута
 app.post("/api/fake_image", urlencodedParser, require ('./controllers/create').create)

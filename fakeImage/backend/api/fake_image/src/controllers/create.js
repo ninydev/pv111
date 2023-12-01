@@ -13,6 +13,10 @@ exports.create = function (request, response) {
         bg_url: bg_url,
         createdAt: Date.now()
     }
+
+    console.log('Start process:')
+    console.log(newFakeImage)
+
     sendImageToRemoveBg(newFakeImage);
     return response.status(201).json(newFakeImage);
 }

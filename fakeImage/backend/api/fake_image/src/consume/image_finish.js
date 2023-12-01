@@ -1,14 +1,10 @@
-const sendImageFinish = require('./helpers/send_image_finish')
 
-const mixImages = async (fakeImage) => {
 
-    // Операция по микшированию 2 изображений тут
+const image_finish = async (fakeImage) => {
+
+    // Операция закончена
+    console.log('end process');
     console.log(fakeImage);
-
-    fakeImage.result_img_url = 'Ссылка на результат';
-    fakeImage.imageFinishAt = Date.now();
-
-    sendImageFinish(fakeImage);
 }
 
 /**
@@ -20,7 +16,7 @@ const RABBITMQ_SERVER = process.env.RABBITMQ_SERVER || 'rabbit.mq';
 const RABBITMQ_PORT = process.env.RABBITMQ_PORT || 5672;
 const RABBITMQ_CONNECTION_URI = `amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@${RABBITMQ_SERVER}:${RABBITMQ_PORT}`;
 
-const RABBITMQ_QUEUE_MIX = process.env.RABBITMQ_QUEUE_MIX || 'jobs.mix.images';
+const RABBITMQ_QUEUE_API_FINISH = process.env.RABBITMQ_QUEUE_API_FINISH || 'image.finish';
 
 
 const amqp = require ('amqplib/callback_api.js');
@@ -53,7 +49,7 @@ amqp.connect(RABBITMQ_CONNECTION_URI, {}, async (errorConnect, conn) => {
 
         // Шаг 3 - Ассоциация (назначение) очереди для этих сообщений
         // Мы настраиваем соединение с очередью - настраиваем правила доставки сообщений, режим хранения и тд
-        await ch.assertQueue(RABBITMQ_QUEUE_MIX, {}, (errorQueue) => {
+        await ch.assertQueue(RABBITMQ_QUEUE_API_FINISH, {}, (errorQueue) => {
             if (errorQueue) {
                 console.error(errorQueue);
                 process.exit(-1);
@@ -63,11 +59,11 @@ amqp.connect(RABBITMQ_CONNECTION_URI, {}, async (errorConnect, conn) => {
 
         channel = ch;
         // Назначаю слушателя очереди
-        channel.consume(RABBITMQ_QUEUE_MIX,  async (data) => {
+        channel.consume(RABBITMQ_QUEUE_API_FINISH,  async (data) => {
             let notification = JSON.parse(data.content.toString());
             let fakeImage = JSON.parse(data.content.toString());
 
-            await mixImages(fakeImage);
+            await image_finish(fakeImage);
 
             channel.ack(data);
         });
