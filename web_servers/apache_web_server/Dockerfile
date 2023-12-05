@@ -19,8 +19,8 @@ WORKDIR /var/www/html
 # Копируем содержимое DocumentRoot внутрь контейнера
 COPY ./html/ .
 
-# Устанавливаем права доступа
-RUN chown -R www-data:www-data /var/www/html
+# Указываем права доступа для директорий
+RUN chown -R www-data:www-data /var/www/html /var/log/httpd
 
 # Открываем порт 80 для HTTP
 EXPOSE 81
