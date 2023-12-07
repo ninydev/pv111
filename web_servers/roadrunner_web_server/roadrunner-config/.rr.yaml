@@ -1,0 +1,28 @@
+# configuration version: https://roadrunner.dev/docs/beep-beep-config/2.x/en
+version: '3'
+
+server:
+  # command: "php ./vendor/bin/rr-worker start --relay-dsn unix:///var/run/rr-relay.sock"
+  # relay: "unix:///var/run/rr-relay.sock"
+  # relay_timeout: "20s"
+logs:
+  #Available value : panic, error, warn, info, debug. Default: debug
+  level: debug
+
+
+http:
+  address: tcp://0.0.0.0:80
+  middleware: ["static", "headers", "gzip"]
+  pool:
+    numWorkers: 2
+    destroyTimeout: 3
+    maxJobs: 0
+    #max_jobs: 64 # feel free to change this
+    supervisor:
+      exec_ttl: 60s
+  headers:
+    response:
+      X-Powered-By: "RoadRunner"
+  static:
+    dir: "/var/www/html"
+    forbid: [".php"]
