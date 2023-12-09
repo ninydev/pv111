@@ -8,7 +8,7 @@ class MyLibClass
 {
     public function __construct()
     {
-        echo __NAMESPACE__ . " " . __CLASS__ . " create ";
+        echo  __CLASS__ . " create \n";
     }
 
 }
