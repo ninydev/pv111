@@ -1,10 +1,12 @@
 <?php
 
 // Подключение автозагрузки классов
+use App\Helpers\SendMail;
+
 require_once '../vendor/autoload.php';
 
 
-$sender = new \App\Helpers\SendMail();
+$sender = new SendMail();
 $sender->send('keeper@ninydev.com', 'Oleksandr Nykytin');
 
 
