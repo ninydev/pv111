@@ -12,11 +12,17 @@ if ($newProduct) {
     $collection->addProduct($newProduct);
 }
 
-$view = new \App\Views\ProductViews();
+$view = new \App\Views\ProductView();
 echo $view->getAllHtml($collection);
 
 $form = new \App\Forms\ProductForm();
 $form->echoForm();
+
+$searchForm = new \App\Forms\ProductSearchForm();
+$searchForm->echoForm();
+
+$searchView = new \App\Views\ProductSearchView();
+$searchView->showResult($collection);
 
 //
 //echo "<ul>";

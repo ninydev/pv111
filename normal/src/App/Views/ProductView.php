@@ -5,7 +5,7 @@ namespace App\Views;
 use App\Collections\ProductCollection;
 use App\Views\Interfeces\ShowAllViewsInterface;
 
-class ProductViews implements ShowAllViewsInterface
+class ProductView implements ShowAllViewsInterface
 {
 
     function echoAll(ProductCollection $collection): void
