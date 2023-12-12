@@ -6,6 +6,11 @@ use Dotenv\Dotenv;
 
 class Env
 {
+    /**
+     * Запретим создание экземпляра класса
+     */
+    private function __construct(){}
+
     private static $loaded = false;
 
     private static function load()
