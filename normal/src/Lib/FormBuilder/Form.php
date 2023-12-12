@@ -7,13 +7,10 @@ use Lib\FormBuilder\Inputs\Input;
 class Form
 {
     public function __construct(
-        public $method = null,
-        public $action = null
+        public FormMethodsEnum $method = FormMethodsEnum::POST,
+        public string|null $action = null
     )
     {
-
-        if (!$this->method)
-            $this->method = 'POST';
         if (!$this->action)
             $this->action =  $_SERVER['PHP_SELF'];
     }
@@ -28,7 +25,16 @@ class Form
 
     public function __toString(): string
     {
-        $result = "<form method='$this->method' action='$this->action' >\n";
+        $result = "<form method='";
+
+        $result.= $this->method->value;
+
+//        if($this->method == FormMethodsEnum::GET)
+//            $result.= 'GET';
+//        else
+//            $result.= 'POST';
+
+        $result.= "' action='$this->action' >\n";
         foreach ($this->inputs as $input) {
             if ($input instanceof Input) {
                 $result.= $input;
