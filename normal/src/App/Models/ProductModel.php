@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Abstracts\AbstractModel;
+use App\Models\Traits\HasTimeStampTrait;
+
 /**
  * По практической работе 13
  * @package App\Models
  */
-class ProductModel
+class ProductModel extends AbstractModel
 {
+    use HasTimeStampTrait;
+
+
     private $name;
     private $price;
 
