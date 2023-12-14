@@ -20,3 +20,5 @@ var_dump($_FILES['avatar']);
 echo "</pre>";
 
 Files::save('avatar');
+
+\App\Helpers\Log::debug('Files', 'Ok');

@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 class Files
 {
+    private function __construct(){}
 
     public static function isFile(string $name) : bool
     {
