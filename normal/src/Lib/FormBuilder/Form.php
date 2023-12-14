@@ -25,7 +25,7 @@ class Form
 
     public function __toString(): string
     {
-        $result = "<form method='";
+        $result = "<form  enctype='multipart/form-data' method='";
 
         $result.= $this->method->value;
 
