@@ -1,21 +1,21 @@
 <?php
-
-// Подключение автозагрузки классов
-use App\Helpers\SendMail;
-
 require_once '../vendor/autoload.php';
 
+$controllerName = isset($_GET['controller']) ? $_GET['controller'] : 'Page';
+$controllerClassName = "\App\Controllers\\". $controllerName . 'Controller';
 
-$sender = new SendMail();
-$sender->send('keeper@ninydev.com', 'Oleksandr Nykytin');
+$methodName = isset($_GET['method']) ? $_GET['method'] : 'index';
 
+echo "<p> Try Find " . $controllerClassName . "::" . $methodName . "</p>";
 
-//// Более удобный вариант
-//use App\Helpers\Env;
-//
-//$h = new App\Helpers\MyLibClass();
-//$o = new Lib\MyLib\MyClass();
-//
-//
-//$test = Env::get('TEST');
-//echo "test = " . $test . "\n";
+if (
+    !(class_exists($controllerClassName) &&
+    method_exists($controllerClassName, $methodName))
+){
+    $controllerClassName = "\App\Controllers\ErrorController";
+    $methodName = 'error404';
+}
+// Создаем экземпляр класса контроллера
+$controllerInstance = new $controllerClassName();
+// Вызываем метод
+call_user_func([$controllerInstance, $methodName]);
