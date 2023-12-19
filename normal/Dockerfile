@@ -1,43 +1,46 @@
-# Используем базовый образ с Nginx
-FROM nginx:latest
+# Базовый контейнер - чистая ОС
+FROM ubuntu:22.04
 
-# Устанавливаем пакеты, которые могут понадобиться для настройки
-RUN apt-get update \
-    && apt-get install -y \
-    php mc php8.2-fpm php8.2-dev unzip libpq-dev php8.2-mysqli php8.2-pdo
+# Основая папка где я сложу свой проект
+WORKDIR /var/www/html
 
-# Устанавливаем необходимые расширения PHP mysql
-#RUN docker-php-ext-install pdo pdo_mysql && docker-php-ext-enable pdo_mysql
-#RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+# TimeZone
+ENV TZ=UTC
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Установка дополнительных расширений PHP для Redis
-#RUN pecl install redis && docker-php-ext-enable redis
+# Обновить версии пакетов
+RUN apt update && apt upgrade -y
+
+# Установим вспомогательное ПО
+RUN apt install -y curl ca-certificates zip unzip git mc gnupg gosu
+
+# Установить версию php
+RUN curl -sS 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x14aa40ec0831756756d7f66c4f4ea0aae5267a6c' | gpg --dearmor | tee /etc/apt/keyrings/ppa_ondrej_php.gpg > /dev/null \
+    && echo "deb [signed-by=/etc/apt/keyrings/ppa_ondrej_php.gpg] https://ppa.launchpadcontent.net/ondrej/php/ubuntu jammy main" > /etc/apt/sources.list.d/ppa_ondrej_php.list
+
+
+RUN apt update && apt install -y php8.2 php8.2-fpm php8.2-mysql php8.2-curl
 
 # Установка Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Загрузим код проекта в контейнер
+COPY ./src .
+
+# Уставноим веб сервер
+RUN apt install -y nginx
 
 # Копируем наш кастомный конфиг Nginx внутрь контейнера
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
-# Создаем директорию для монтирования DocumentRoot
-RUN mkdir -p /usr/share/nginx/html
+# Установка и конфигурация утилиты автозапуска supervisor
+RUN apt install -y supervisor
 
-# Указываем рабочую директорию
-WORKDIR /usr/share/nginx/html
+# Копирование конфигурационного файла supervisord для воркеров очереди
+COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Копируем содержимое DocumentRoot внутрь контейнера
-COPY ./src .
+# Запуск сервисов контейнера
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
-# Устанавливаем права доступа
-RUN chown -R nginx:nginx /usr/share/nginx/html
-
-# Открываем порт 80 для HTTP
-EXPOSE 80
-
-# Запускаем Nginx при старте контейнера
-#CMD ["service", "php8.2-fpm", "start"]
-#CMD ["nginx", "-g", "daemon off;"]
-CMD service php8.2-fpm start && nginx -g "daemon off;"
-
-
+# Запуск теперь я произвожу с помощью SuperVisor - и там описываю правила для приложений
+# CMD service php8.2-fpm start && nginx -g "daemon off;"
