@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Requests\ContactRequest;
-use Illuminate\Http\Request;
+use App\Mail\ContactMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Validator;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,9 +63,12 @@ Route::post('/contact', function (ContactRequest $request) {
             'message' => $request->input('message')
         ];
 
+
+        Mail::to('keeper@ninydev.com')->send(new ContactMail($user));
+
         // $user = $request->all(); // В этом случае будет загружен и token
 
-        dd($user);
+        // dd($user);
     }
 
 
