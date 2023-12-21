@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Requests\ContactRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +31,47 @@ Route::get('/news', function () {
 Route::get('/contact', function () {
     return view('pages.contact');
 })->name('page.contact');
+
+Route::post('/contact', function (ContactRequest $request) {
+
+//    // dd($request);
+//    $validator = Validator::make($request->all(), [
+//        'name' => 'required|min:2|max:255',
+//        'email' => 'required|email',
+//        'subject' => 'required',
+//        'message' => 'required',
+//    ]);
+//
+//    if (!$validator->fails()) {
+//        $user = [
+//            'name' => $request->input('name'),
+//            'email' => $request->input('email'),
+//            'subject' => $request->input('subject'),
+//            'message' => $request->input('message')
+//        ];
+//        dd($user);
+//    }
+
+    // Проверяем прошла ли валидация
+    if ($request->validated()) {
+        // Ваш код, который выполняется, если валидация прошла успешно
+
+        $user = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'subject' => $request->input('subject'),
+            'message' => $request->input('message')
+        ];
+
+        // $user = $request->all(); // В этом случае будет загружен и token
+
+        dd($user);
+    }
+
+
+    return view('pages.contact');
+
+})->name('form.contact');
 
 
 Route::get('/info', function () {
