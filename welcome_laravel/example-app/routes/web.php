@@ -14,5 +14,27 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.index');
+});
+
+Route::get('/about', function () {
+    return view('pages.about');
+});
+
+Route::get('/news', function () {
+    return view('pages.news');
+});
+
+Route::get('/contact', function () {
+    return view('pages.contact');
+});
+
+
+Route::get('/info', function () {
+    phpinfo();
+});
+
+Route::get('/test', function () {
+    \Illuminate\Support\Facades\Log::debug("Hello Test");
+    return "Hello Test";
 });
