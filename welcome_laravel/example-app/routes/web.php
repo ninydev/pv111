@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Requests\ContactRequest;
-use App\Mail\ContactMail;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +26,13 @@ Route::get('/news', function () {
     return view('pages.news');
 })->name('page.news');
 
+
+
+Route::get('/contact',[ContactController::class, 'show'] )->name('page.contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('form.contact');
+
+
+/*
 Route::get('/contact', function () {
     return view('pages.contact');
 })->name('page.contact');
@@ -75,7 +80,7 @@ Route::post('/contact', function (ContactRequest $request) {
     return view('pages.contact');
 
 })->name('form.contact');
-
+*/
 
 Route::get('/info', function () {
     phpinfo();
