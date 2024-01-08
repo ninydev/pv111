@@ -31,10 +31,12 @@ Route::get('/news', function () {
 Route::get('/contact',[ContactController::class, 'show'] )->name('page.contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('form.contact');
 
+// Route::resource('res_web', \App\Http\Controllers\PhotoController::class);
+
 
 /*
 Route::get('/contact', function () {
-    return view('pages.contact');
+  return view('pages.contact');
 })->name('page.contact');
 
 Route::post('/contact', function (ContactRequest $request) {

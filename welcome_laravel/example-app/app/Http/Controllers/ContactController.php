@@ -9,10 +9,16 @@ use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
+
+
     public function show ()
     {
         return view('pages.contact');
     }
+
+
+
+
     public function send (ContactRequest $request) {
 
 //    // dd($request);
