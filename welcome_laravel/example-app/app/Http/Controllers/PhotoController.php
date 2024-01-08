@@ -24,9 +24,16 @@ class PhotoController extends Controller
     public function store(CreatePhotoRequest $request)
     {
         try {
-            $photo = new Photo($request->all());
+            // $photo = new Photo($request->all());
+
+            $photo = $request->getModelFromRequest();
             $photo->save();
             return $photo;
+
+            // Если мне не нужно знать ничего о новой модели - а только состояние операции
+//            return  $request
+//                        ->getModelFromRequest()
+//                        ->save();
         } catch (\Exception $e) {
             return  $e->getMessage();
         }

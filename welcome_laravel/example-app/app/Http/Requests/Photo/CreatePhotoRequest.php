@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Photo;
 
+use App\Models\Photo;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
@@ -38,5 +39,10 @@ class CreatePhotoRequest extends FormRequest
         $response = new JsonResponse(['errors' => $validator->errors()], 422);
 
         throw new ValidationException($validator, $response);
+    }
+
+    public function getModelFromRequest() : Photo
+    {
+        return new Photo(($this->all()));
     }
 }
