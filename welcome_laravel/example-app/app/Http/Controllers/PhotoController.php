@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Photo\CreatePhotoRequest;
 use App\Models\Photo;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use function Symfony\Component\Translation\t;
 
 class PhotoController extends Controller
 {
@@ -18,9 +21,16 @@ class PhotoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreatePhotoRequest $request)
     {
-        //
+        try {
+            $photo = new Photo($request->all());
+            $photo->save();
+            return $photo;
+        } catch (\Exception $e) {
+            return  $e->getMessage();
+        }
+
     }
 
     /**
@@ -46,4 +56,6 @@ class PhotoController extends Controller
     {
         //
     }
+
+
 }
