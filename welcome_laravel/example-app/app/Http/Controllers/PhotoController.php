@@ -43,9 +43,10 @@ class PhotoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Photo $photo)
+    public function show(int $id)
     {
-        //
+        $photo = Photo::where('id', '=', $id)->with('category')->get();
+        return $photo;
     }
 
     /**
