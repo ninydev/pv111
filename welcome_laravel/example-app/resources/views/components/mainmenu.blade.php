@@ -8,6 +8,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link"  href="{{ route('index') }}">Главная</a></li>
                 <li class="nav-item"><a class="nav-link"  href="{{ route('page.about') }}">О нас</a></li>
+                <li class="nav-item"><a class="nav-link"  href="{{ route('page.photo') }}">Фотографии</a></li>
                 <li class="nav-item"><a class="nav-link"  href="{{ route('page.news') }}">Новости</a></li>
                 <li class="nav-item"><a class="nav-link"  href="{{ route('page.contact') }}">Контакты</a></li>
             </ul>

@@ -18,6 +18,10 @@ Route::get('/', function () {
     return view('pages.index');
 })->name('index');
 
+Route::get('/photo', function () {
+    return view('pages.photo');
+})->name('page.photo');
+
 Route::get('/about', function () {
     return view('pages.about');
 })->name('page.about');
