@@ -15,7 +15,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        return Photo::all();
+        return Photo::with('category')->get();
     }
 
     /**

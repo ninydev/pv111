@@ -100,10 +100,15 @@
                 let li = document.createElement("li")
                 li.id = photo.id
                 li.innerText = photo.name
-                let span = document.createElement("span")
-                span.innerHTML = '-'
-                span.onclick = deletePhoto
-                li.appendChild(span)
+
+                let spanCategory = document.createElement("span")
+                spanCategory.innerHTML = photo.category.name
+                li.appendChild(spanCategory)
+
+                let spanDel = document.createElement("span")
+                spanDel.innerHTML = ' - '
+                spanDel.onclick = deletePhoto
+                li.appendChild(spanDel)
                 ul.appendChild(li)
             })
 
