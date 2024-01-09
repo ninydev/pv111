@@ -63,6 +63,34 @@
         const divPhoto = document.getElementById("divPhoto")
 
         /**
+         * ОБработка события удаления
+         * @param ev
+         */
+        function deletePhoto(ev) {
+            ev.preventDefault()
+            const id = ev.target.parentNode.id
+            console.log("try del: " + id)
+
+            fetch('/api/photo/' + id, {
+                method: 'DELETE'
+            })
+                .then(res => {
+                    console.log (res.status)
+                    if (res.status === 204) {
+                        frmCreatePhoto.reset()
+                        loadAllPhoto()
+                    }
+                    else
+                        throw { message: "Error"}
+                })
+                .catch(err => {
+                    console.error(err)
+                    echoError(err)
+                })
+
+        }
+
+        /**
          * Построить фотогалерею
          * @param photos
          */
@@ -72,6 +100,10 @@
                 let li = document.createElement("li")
                 li.id = photo.id
                 li.innerText = photo.name
+                let span = document.createElement("span")
+                span.innerHTML = '-'
+                span.onclick = deletePhoto
+                li.appendChild(span)
                 ul.appendChild(li)
             })
 
