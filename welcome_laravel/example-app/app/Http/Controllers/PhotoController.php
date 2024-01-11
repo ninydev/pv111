@@ -27,7 +27,12 @@ class PhotoController extends Controller
             // $photo = new Photo($request->all());
 
             $photo = $request->getModelFromRequest();
+            $photo->category()->associate($request->input('category_id'));
             $photo->save();
+
+            if ($request->has('tags')) {
+                $photo->tags()->attach($request->input('tags'));
+            }
             return $photo;
 
             // Если мне не нужно знать ничего о новой модели - а только состояние операции

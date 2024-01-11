@@ -13,7 +13,7 @@ class Photo extends Model
 
     // Список полей, которые можно менять в базе данных
     protected $fillable = [
-        'name', 'description'
+        'name', 'description' // , 'category_id'
     ];
 
     public function category() : BelongsTo

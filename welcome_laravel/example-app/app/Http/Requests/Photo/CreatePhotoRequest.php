@@ -27,6 +27,9 @@ class CreatePhotoRequest extends FormRequest
     {
         return [
             'name' => 'required|string|unique:photos,name|min:3|max:64',
+            'tags' => 'array',
+            'tags.*' => 'exists:photo_tags,id',
+            'category_id' => 'required|exists:photo_categories,id',
 //            'place' => 'string|min:3|max:64',
 //            'description' => 'nullable|string',
 //            'url' => 'nullable|string',
