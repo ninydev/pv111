@@ -45,7 +45,8 @@ class PhotoController extends Controller
      */
     public function show(int $id)
     {
-        $photo = Photo::where('id', '=', $id)->with('category')->get();
+        $photo = Photo::where('id', '=', $id)
+            ->with('category', 'tags')->get();
         return $photo;
     }
 

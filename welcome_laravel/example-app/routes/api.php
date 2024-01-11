@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PhotoCategoryController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\PhotoTagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource('photo', PhotoController::class);
 Route::apiResource('photo-category', PhotoCategoryController::class);
+Route::apiResource('photo-tag', PhotoTagController::class);
 
 // не нужно добавлять api - это сделает фреймворк сам
 //Route::get('/test', function () {
