@@ -6,6 +6,7 @@ use App\Http\Requests\Photo\CreatePhotoRequest;
 use App\Models\Photo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use function Symfony\Component\Translation\t;
 
 class PhotoController extends Controller
@@ -24,9 +25,22 @@ class PhotoController extends Controller
     public function store(CreatePhotoRequest $request)
     {
         try {
-            // $photo = new Photo($request->all());
 
             $photo = $request->getModelFromRequest();
+
+            // Получаем файл из запроса
+            $file = $request->file('photo');
+            // Генерируем уникальное имя для файла
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            // Получите путь к файлу
+            $filePath = $file->storeAs('public/photos', $filename);
+            // Получите URL файла
+            $fileUrl = url(Storage::url($filePath));
+
+            // Сохраняем URL в базе
+            $photo->url = $fileUrl;
+
             $photo->category()->associate($request->input('category_id'));
             $photo->save();
 
@@ -34,15 +48,9 @@ class PhotoController extends Controller
                 $photo->tags()->attach($request->input('tags'));
             }
             return $photo;
-
-            // Если мне не нужно знать ничего о новой модели - а только состояние операции
-//            return  $request
-//                        ->getModelFromRequest()
-//                        ->save();
         } catch (\Exception $e) {
             return  $e->getMessage();
         }
-
     }
 
     /**
@@ -66,9 +74,15 @@ class PhotoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Photo $photo)
+    public function destroy(int $id)
     {
+        $photo = Photo::findOrFail($id);
+
+        // Отсоединяем все теги перед удалением фотографии
+        $photo->tags()->detach();
+
         $photo->delete();
+
         return response()->json([], 204);
     }
 

@@ -27,4 +27,16 @@ class Photo extends Model
             'pivot_photo_tags', 'photo_id', 'tag_id');
     }
 
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Обработка события "deleting"
+        static::deleting(function ($photo) {
+            // Отсоединяем все теги перед удалением фотографии
+            $photo->tags()->detach();
+        });
+    }
+
 }
