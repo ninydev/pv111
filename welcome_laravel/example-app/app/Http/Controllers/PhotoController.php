@@ -41,12 +41,11 @@ class PhotoController extends Controller
             // Сохраняем URL в базе
             $photo->url = $fileUrl;
 
-            $photo->category()->associate($request->input('category_id'));
             $photo->save();
 
-            if ($request->has('tags')) {
-                $photo->tags()->attach($request->input('tags'));
-            }
+//            if ($request->has('tags')) {
+//                $photo->tags()->attach($request->input('tags'));
+//            }
             return $photo;
         } catch (\Exception $e) {
             return  $e->getMessage();
