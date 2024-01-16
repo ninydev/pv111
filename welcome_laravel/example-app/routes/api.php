@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/jwt/login', [JwtLoginController::class, 'login']);
 Route::get('/jwt/me', [JwtLoginController::class, 'me'])->middleware('auth:api');
 
-Route::apiResource('photo', PhotoController::class);
+Route::apiResource('photo', PhotoController::class)->middleware('auth:api');
 Route::apiResource('photo-category', PhotoCategoryController::class);
 Route::apiResource('photo-tag', PhotoTagController::class);
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -20,6 +21,14 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        // Пользователь по умолчанию - или в миграции или в сидах
+        DB::table('users')
+            ->insert([
+                'name' => 'test User',
+                'email' => 'test@test.com',
+                'password' => Hash::make('QWeAsdZxc!23')
+            ]);
     }
 
     /**

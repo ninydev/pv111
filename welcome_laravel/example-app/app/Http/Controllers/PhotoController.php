@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserUploadPhotoEvent;
 use App\Http\Requests\Photo\CreatePhotoRequest;
 use App\Models\Photo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use function Symfony\Component\Translation\t;
 
@@ -28,6 +30,12 @@ class PhotoController extends Controller
 
             $photo = $request->getModelFromRequest();
 
+            // получение автора фотографии
+            $user_id = $request->user()->id;
+
+            Log::debug('userId', [$user_id] );
+            Log::debug('user', [json_encode($request->user())] );
+
             // Получаем файл из запроса
             $file = $request->file('photo');
             // Генерируем уникальное имя для файла
@@ -41,7 +49,17 @@ class PhotoController extends Controller
             // Сохраняем URL в базе
             $photo->url = $fileUrl;
 
-            $photo->save();
+            try {
+                $photo->save();
+                //event(new UserUploadPhotoEvent($photo));
+                UserUploadPhotoEvent::dispatch($photo);
+            } catch (\Exception $e) {
+
+            }
+
+
+
+
 
 //            if ($request->has('tags')) {
 //                $photo->tags()->attach($request->input('tags'));
