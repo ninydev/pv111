@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\UserUploadPhotoEvent;
 use App\Http\Requests\Photo\CreatePhotoRequest;
+use App\Jobs\UserUploadPhotoJob;
 use App\Models\Photo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -33,8 +34,8 @@ class PhotoController extends Controller
             // получение автора фотографии
             $user_id = $request->user()->id;
 
-            Log::debug('userId', [$user_id] );
-            Log::debug('user', [json_encode($request->user())] );
+//            Log::debug('userId', [$user_id] );
+//            Log::debug('user', [json_encode($request->user())] );
 
             // Получаем файл из запроса
             $file = $request->file('photo');
@@ -51,8 +52,14 @@ class PhotoController extends Controller
 
             try {
                 $photo->save();
-                //event(new UserUploadPhotoEvent($photo));
-                UserUploadPhotoEvent::dispatch($photo);
+                Log::debug('Controller Save:', [date('H:i:s') . '.' . microtime(true)]);
+                // Генерация события (принято, что событие обрабатывается в том же потоке
+                // event(new UserUploadPhotoEvent($photo));
+                // UserUploadPhotoEvent::dispatch($photo);
+
+                // Генерация фонового задания
+                UserUploadPhotoJob::dispatch();
+
             } catch (\Exception $e) {
 
             }
@@ -64,6 +71,7 @@ class PhotoController extends Controller
 //            if ($request->has('tags')) {
 //                $photo->tags()->attach($request->input('tags'));
 //            }
+            Log::debug('Controller Finish:', [date('H:i:s') . '.' . microtime(true)]);
             return $photo;
         } catch (\Exception $e) {
             return  $e->getMessage();

@@ -10,6 +10,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class UserUploadPhotoEvent
 {
@@ -26,6 +27,7 @@ class UserUploadPhotoEvent
         public Photo $model
     )
     {
+        Log::debug('UserUploadPhotoEvent Constructor:', [date('H:i:s') . '.' . microtime(true)]);
         $this->model = $model;
         //
     }
