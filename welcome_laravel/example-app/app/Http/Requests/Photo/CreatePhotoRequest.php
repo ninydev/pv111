@@ -7,6 +7,8 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
+use OpenApi\Attributes as OA;
+
 
 class CreatePhotoRequest extends FormRequest
 {
@@ -23,6 +25,7 @@ class CreatePhotoRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
     public function rules(): array
     {
         return [

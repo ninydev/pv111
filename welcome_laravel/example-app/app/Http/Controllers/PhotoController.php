@@ -9,9 +9,12 @@ use App\Models\Photo;
 use App\Notifications\UserUploadPhotoNotification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use function Symfony\Component\Translation\t;
+
+use OpenApi\Attributes as OAT;
 
 class PhotoController extends Controller
 {
@@ -25,7 +28,24 @@ class PhotoController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * Если я доку пропишу здесь ???
      */
+    #[OAT\Post(
+        tags: ['photo'],
+        path: '/api/photo',
+        summary: 'Create new photo',
+        operationId: 'photo.store',
+        responses: [
+            new OAT\Response(
+                response: HttpResponse::HTTP_CREATED,
+                description: 'Created'
+            ),
+            new OAT\Response(
+                response: HttpResponse::HTTP_UNPROCESSABLE_ENTITY,
+                description: 'Unprocessable entity'
+            ),
+        ]
+    )]
     public function store(CreatePhotoRequest $request)
     {
         try {
