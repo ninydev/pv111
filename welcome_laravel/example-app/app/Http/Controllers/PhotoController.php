@@ -6,6 +6,7 @@ use App\Events\UserUploadPhotoEvent;
 use App\Http\Requests\Photo\CreatePhotoRequest;
 use App\Jobs\UserUploadPhotoJob;
 use App\Models\Photo;
+use App\Notifications\UserUploadPhotoNotification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -58,7 +59,10 @@ class PhotoController extends Controller
                 // UserUploadPhotoEvent::dispatch($photo);
 
                 // Генерация фонового задания
-                UserUploadPhotoJob::dispatch();
+                // UserUploadPhotoJob::dispatch();
+
+                // Уведомим пользователя о том, что его фото загружено
+                $request->user()->notify(new UserUploadPhotoNotification());
 
             } catch (\Exception $e) {
 

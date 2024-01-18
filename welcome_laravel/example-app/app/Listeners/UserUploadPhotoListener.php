@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
-class UserUploadPhotoListener
+class UserUploadPhotoListener implements ShouldQueue
 {
     /**
      * Create the event listener.
