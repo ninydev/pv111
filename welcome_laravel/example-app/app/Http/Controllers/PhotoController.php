@@ -7,9 +7,11 @@ use App\Http\Requests\Photo\CreatePhotoRequest;
 use App\Jobs\UserUploadPhotoJob;
 use App\Models\Photo;
 use App\Notifications\UserUploadPhotoNotification;
+use App\Services\PhotoService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use function Symfony\Component\Translation\t;
@@ -18,12 +20,17 @@ use OpenApi\Attributes as OAT;
 
 class PhotoController extends Controller
 {
+    public function __construct(
+        private PhotoService $photoService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Photo::with('category')->get();
+        return $this->photoService->index($request);
     }
 
     /**
@@ -107,9 +114,23 @@ class PhotoController extends Controller
      */
     public function show(int $id)
     {
-        $photo = Photo::where('id', '=', $id)
-            ->with('category', 'tags')->get();
-        return $photo;
+        return $this->photoService->show($id);
+//        $photo = Photo::where('id', '=', $id)
+//            ->with('category', 'tags')->get();
+
+
+//        // forever вместо remember
+//        // Фотографию в кеше можно хранить вечно (пока не будет у нее что то заменено)
+//        $photo = Cache::remember('photo_id_' . $id, env('CACHE_PHOTO_ALL_TTL', 600),
+//            function  () use ($id) {
+//                $photo = Photo::where('id', '=', $id)
+//                    ->with('category', 'tags')->get();
+//                info("Читаю с базы для фотки: " . $id);
+//                info($photo);
+//                return $photo;
+//            });
+//
+//        return $photo;
     }
 
     /**
@@ -117,7 +138,7 @@ class PhotoController extends Controller
      */
     public function update(Request $request, Photo $photo)
     {
-        //
+        Cache::forget('photo_id_' .$photo->id);
     }
 
     /**
@@ -126,6 +147,10 @@ class PhotoController extends Controller
     public function destroy(int $id)
     {
         $photo = Photo::findOrFail($id);
+
+        Cache::forget('photo_id_' .$photo->id);
+
+        Cache::flush('photo_page*');
 
         // Отсоединяем все теги перед удалением фотографии
         $photo->tags()->detach();

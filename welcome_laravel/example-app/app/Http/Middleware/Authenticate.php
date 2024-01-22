@@ -16,8 +16,8 @@ class Authenticate  extends Middleware
             $this->authenticate($request, $guards);
 
             // Ключ
-            info('Handling authentication middleware', ['request->bearerToken' => json_encode($request->bearerToken())]);
-            info('user', [json_encode($request->user())]);
+//            info('Handling authentication middleware', ['request->bearerToken' => json_encode($request->bearerToken())]);
+//            info('user', [json_encode($request->user())]);
 
             return $next($request);
         } catch (\Exception $e) {
