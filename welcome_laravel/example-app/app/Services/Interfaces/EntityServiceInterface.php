@@ -11,10 +11,11 @@ interface EntityServiceInterface
 
     /**
      * Получение всех записей сущности
-     * @param Request $request
+     * @param int $page
+     * @param int $per_page
      * @return LengthAwarePaginator
      */
-    function index(Request $request)  : LengthAwarePaginator;
+    function index(int $page, int $per_page)  : LengthAwarePaginator;
 
     /**
      * Получение 1 записи из базы данных

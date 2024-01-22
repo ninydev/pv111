@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Cool\CoolPhotoController;
 use App\Http\Controllers\Jwt\JwtLoginController;
 use App\Http\Controllers\PhotoCategoryController;
 use App\Http\Controllers\PhotoController;
@@ -29,6 +30,8 @@ Route::apiResource('photo', PhotoController::class)->middleware('auth:api');
 Route::apiResource('photo-category', PhotoCategoryController::class);
 Route::apiResource('photo-tag', PhotoTagController::class);
 
+
+Route::apiResource('cool_photo', CoolPhotoController::class)->middleware('auth:api');
 // не нужно добавлять api - это сделает фреймворк сам
 //Route::get('/test', function () {
 //    return [
