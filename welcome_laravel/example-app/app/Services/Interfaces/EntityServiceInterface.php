@@ -24,6 +24,27 @@ interface EntityServiceInterface
      */
     function show(int $id) : Model;
 
+    /**
+     * Сохраняет модель
+     * @param Request $request
+     * @param Model $model
+     * @return Model
+     */
+    function store(Request $request) : Model;
+
+    /**
+     * Обновление сущности
+     * @param Model $entity
+     * @return bool
+     */
+    public function update(Model $entity) : bool;
+
+    /**
+     * Удаление сущности
+     * @param int $id
+     * @return void
+     */
+    public function destroy(int $id) : void;
 
 
 }

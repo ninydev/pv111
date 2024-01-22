@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Services\Interfaces\EntityServiceInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
@@ -44,5 +45,22 @@ class CacheService implements EntityServiceInterface
                 return $this->entityService->show($id);
             });
         return $entity;
+    }
+
+    public function update(Model $entity): bool
+    {
+        Cache::forget($this->cachePrefixById . $entity->id);
+        return $this->entityService->update($entity);
+    }
+
+    public function destroy(int $id): void
+    {
+        Cache::forget($this->cachePrefixById . $id);
+        $this->entityService->destroy($id);
+    }
+
+    function store(Request $request): Model
+    {
+        return $this->entityService->store($request);
     }
 }
