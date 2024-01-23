@@ -2,22 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserUploadPhotoEvent;
 use App\Http\Requests\Photo\CreatePhotoRequest;
-use App\Jobs\UserUploadPhotoJob;
 use App\Models\Photo;
 use App\Notifications\UserUploadPhotoNotification;
 use App\Services\CacheService;
 use App\Services\Interfaces\EntityServiceInterface;
-use App\Services\PhotoService;
-use Illuminate\Http\JsonResponse;
+use App\Services\Photos\PhotoService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use function Symfony\Component\Translation\t;
-
 use OpenApi\Attributes as OAT;
 
 class PhotoController extends Controller
