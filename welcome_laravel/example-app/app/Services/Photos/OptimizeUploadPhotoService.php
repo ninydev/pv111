@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Storage;
 use Imagick;
 use function Laravel\Prompts\error;
 
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
+
 class OptimizeUploadPhotoService implements JobServiceInterface
 {
     public function __construct(
@@ -21,42 +24,68 @@ class OptimizeUploadPhotoService implements JobServiceInterface
         // Наша фото
         $photo = Photo::query()->find($this->photo_id);
         info('Photo to work: ', $photo->toArray());
-//$photo->author_id
+        //$photo->author_id
         $fileDir = '/user_id_' . '2' . '/photo_id_' . $photo->id  .'/';
-//        $filePath = '/user_id_' . '2' .
-//            '/photo_id_' . $photo->id
-//            .'/' . $photo->id . '.original.jpg';
-//        info ($filePath);
 
-// Получение содержимого файла
+        // Получение содержимого файла
         $fileContents = Storage::get($fileDir . $photo->id. '.original.jpg');
-        // info ($fileContents);
 
-        // Проверка, является ли файл изображением
-        if (@getimagesizefromstring($fileContents)) {
-            // Получение информации о размерах и типе сжатия
-            $imageInfo = getimagesizefromstring($fileContents);
-            $width = $imageInfo[0];
-            $height = $imageInfo[1];
-            $mime = $imageInfo['mime'];
+        $manager = new ImageManager(new Driver());
 
-            // Вывод информации
-            info( "Это изображение размером {$width}x{$height} с MIME-типом: {$mime}");
+        $image = $manager->read($fileContents);
 
-            $imagick = new Imagick();
-            $imagick->readImageBlob($fileContents);
-            $imagick->setImageFormat('jpeg');
+        $width = $image->width();
+        $height = $image->height();
 
-            // $image->cropImage(190, 300, 350, 565);
-            $imagick->resizeImage(100, 100, Imagick::FILTER_CATROM, 0);
+        info('Image size: ', ['width' => $width, 'height' => $height]);
 
-            Storage::put($fileDir . $photo->id . '.thumb.jpg', $imagick->getImageBlob());
+        $image->scale(200, 100);
 
-
-
-        } else {
-            echo info("Этот файл не является изображением.");
-        }
+        Storage::put($fileDir . $photo->id . '.thumb.webp', $image->toWebp(60));
 
     }
+
+//    public function handle()
+//    {
+//        // Наша фото
+//        $photo = Photo::query()->find($this->photo_id);
+//        info('Photo to work: ', $photo->toArray());
+////$photo->author_id
+//        $fileDir = '/user_id_' . '2' . '/photo_id_' . $photo->id  .'/';
+////        $filePath = '/user_id_' . '2' .
+////            '/photo_id_' . $photo->id
+////            .'/' . $photo->id . '.original.jpg';
+////        info ($filePath);
+//
+//// Получение содержимого файла
+//        $fileContents = Storage::get($fileDir . $photo->id. '.original.jpg');
+//        // info ($fileContents);
+//
+//        // Проверка, является ли файл изображением
+////        if (@getimagesizefromstring($fileContents)) {
+////            // Получение информации о размерах и типе сжатия
+////            $imageInfo = getimagesizefromstring($fileContents);
+////            $width = $imageInfo[0];
+////            $height = $imageInfo[1];
+////            $mime = $imageInfo['mime'];
+////
+////            // Вывод информации
+////            info( "Это изображение размером {$width}x{$height} с MIME-типом: {$mime}");
+////
+////            $imagick = new Imagick();
+////            $imagick->readImageBlob($fileContents);
+////            $imagick->setImageFormat('jpeg');
+////
+////            // $image->cropImage(190, 300, 350, 565);
+////            $imagick->resizeImage(100, 100, Imagick::FILTER_CATROM, 0);
+////
+////            Storage::put($fileDir . $photo->id . '.thumb.jpg', $imagick->getImageBlob());
+////
+////
+////
+////        } else {
+////            echo info("Этот файл не является изображением.");
+////        }
+//
+//    }
 }
